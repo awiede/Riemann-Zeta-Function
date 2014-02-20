@@ -1,25 +1,9 @@
 #z(3) = (8/7) sigma_{k=1} (1/2)^k (1/k^3) - (4/21)log(2)^3 + (2/21)pi^2 log(2)
 import numpy as np
-from decimal import *
 from math import log
 from mpmath import *
 mp.prec+=203
 
-'''
-def ramanujan(k):
-    getcontext().prec=64
-    k=Decimal(k)
-    sigma=Decimal(1)
-    array=np.zeros_like(np.arange(k))
-    for i in np.arange(1,k+1):
-        array[i-1]=(Decimal(0.5)**Decimal(i))*(Decimal(1)/Decimal(i)**Decimal(3))
-    diff1=(Decimal(4)/Decimal(21))*Decimal(np.log(2))**(Decimal(3))
-    diff2=(Decimal(2)/Decimal(21))*Decimal(np.pi)**Decimal(2)*Decimal(np.log(2))
-    sigma=Decimal(8)/Decimal(7)*np.sum(array) -diff1 + diff2
-    return sigma
-
-print ramanujan(100000)
-'''
 def ramanujan(k):
     k=mpf(k)
     sigma=mpf(1)
@@ -31,7 +15,7 @@ def ramanujan(k):
     sigma=mpf(8)/mpf(7)*np.sum(array) -diff1 + diff2
     return sigma
 
-print ramanujan(10000)
+#print ramanujan(10000)
 
 '''
 ramanujan(100000)
