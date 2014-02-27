@@ -3,13 +3,7 @@
 
 double ramanujan(int k)
 {
-    //does not compile. Gives error on pow
-    /*
-    /tmp/cc2veuoH.o: In function `ramanujan':
-    executable.c:(.text+0x36): undefined reference to `pow'
-    executable.c:(.text+0x61): undefined reference to `pow'
-    collect2: ld returned 1 exit status
-    */
+    //on compile, must include flag -lm to include math library
 
     double sigma;
     sigma=0.0;
@@ -31,6 +25,6 @@ double ramanujan(int k)
 main() 
 {
     float result;
-    result = ramanujan(100);
+    result = ramanujan(10000);
     printf("%f\n", result);
 }
