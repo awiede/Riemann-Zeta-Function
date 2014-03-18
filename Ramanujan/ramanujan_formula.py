@@ -14,7 +14,7 @@ def ramanujan(k):
     sigma=mpf(8)/mpf(7)*np.sum(array) -diff1 + diff2
     return sigma
 
-#print ramanujan(10000)
+print ramanujan(1000)
 
 '''
 ramanujan(100000)
