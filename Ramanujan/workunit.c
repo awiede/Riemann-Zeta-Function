@@ -3,6 +3,6 @@
 main()
 {
     //note: system does not terminate the program.
-    system("gcc executable.c");
-    system("./a.out")
+    //system("gcc executable.c");
+    //system("./a.out")
 }
