@@ -19,16 +19,17 @@ function primes(n)
     return primes
 end
 
-function NPioverL(l,primeList,term,power)
+function NPioverL(l,primeList,power)
     return N(l,primeList,power)*(pi^power)/(l^power)
 end
 
 function N(l,primeList,power)
     term=1
     sign=-1
-    sum=L^power
+    sum=l^power
+    numbers=readdlm(primeList,Int)
     while true
-        t=Nterm(l,primeList,term,power)
+        t=Nterm(l,numbers,term,power)
         if t==0
             break
         end
@@ -40,13 +41,13 @@ function N(l,primeList,power)
 end
 
 function Nterm(l,primeList,term,power)
-    primeIndices=[-1]*term
+    primeIndices=zeros(term)
     return NtermRecursive(l,primeIndices,primeList,power)
 end
 
 function NtermRecursive(l,primeIndices,primeList,power)
-    i=0
-    while i<length(primeIndices) && primeIndices[i]!=-1
+    i=1
+    while i<length(primeIndices)+1 && primeIndices[i]!=0
         i+=1
     end
     if i==length(primeIndices)
@@ -55,25 +56,23 @@ function NtermRecursive(l,primeIndices,primeList,power)
     sum=0
     while true
         primeIndices[i]=primeIndices[i]+1
-        if i==0 && primeIndices[i]==length(primeList)
+        if i==1 && primeIndices[i]==length(primeList)
             print("Need more primes")
             break
-        elseif i>0 && primeIndices[i]>=primeIndices[i-1]
+        elseif i>1 && primeIndices[i]>primeIndices[i-1]
+            break
+        elseif product(primeIndices[1:i],primeList)>l
             break
         end
-        #find julia array syntax
-        #elseif product(primeIndices[:i+1],primeList)>l
-        #    break
-        #end
-        sum+=NtermRecursive(l,copyList(primeIndices),primeList,power)
+        sum+=NtermRecursive(l,primeIndices,primeList,power)
     end
     return sum
 end
 
 function product(primeIndices,primeList)
     p=1
-    for i=0:length(primeIndices)
-        p*=primeList[primeIndices[i]]
+    for i=1:length(primeIndices)
+        p*=primeList[primeIndices[i]+1]
     end
     return p
 end

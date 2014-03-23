@@ -4,7 +4,8 @@ import math
 
 def NPioverL(l,primeList,power,digits=100):
     mp.dps=digits
-    return N(l,primeList,power)*(mp.pi**power)/(l**power)
+    mp.prec+=203
+    return N(l,primeList,power)*(mp.pi**power)/l**power
 
 def N(l,primeList,power):
     term=1
@@ -41,8 +42,8 @@ def NtermRecursive(l, primeIndices, primeList, power):
         p=1
         for e in primeIndices:
             p*=primeList[e]
-        #print p
-        return (l/p)
+        #print "p",p
+        return int(l/p)**power
 
     sigma=0
     while True:
@@ -59,10 +60,15 @@ def NtermRecursive(l, primeIndices, primeList, power):
             p*=int(primeList[primeIndices[j]])
         if p>l:
             break
-        sigma+=NtermRecursive(l,primeIndices[:],primeList,power)
+        sigma+=NtermRecursive(l,copyList(primeIndices),primeList,power)
         #print sigma
-    return sigma**power
+    return sigma
 
+def copyList(oldlst):
+    newlst=[]
+    for i in range(len(oldlst)):
+        newlst=newlst+[oldlst[i]]
+    return newlst
 
 '''
 def Nterm(l,primeList,term,power):
@@ -77,3 +83,6 @@ def product(primeIndices,primeList):
 '''
 
 print NPioverL(10**4,'../million_primes.txt',2)
+
+
+
