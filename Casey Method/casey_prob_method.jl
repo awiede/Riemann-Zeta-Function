@@ -52,8 +52,10 @@ function NtermRecursive(l,primeIndices,primeList,power)
     end
     if i==length(primeIndices)
         p=1
-        for e=1:length(primeIndices)-1
-            p*=primeList[primeIndices[e]]
+        for e in primeIndices
+            if e!=0
+                p*=primeList[e]
+            end
         end
         return ifloor(l/p)^power
     end
@@ -85,9 +87,6 @@ function product(primeIndices,primeList)
     end
     return p
 end
-
-#function copyList(oldlst)
-#    newlst=
 
 function N2term(l,pl)
     i=0
