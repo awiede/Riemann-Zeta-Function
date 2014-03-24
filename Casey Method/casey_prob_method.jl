@@ -47,11 +47,15 @@ end
 
 function NtermRecursive(l,primeIndices,primeList,power)
     i=1
-    while i<length(primeIndices)+1 && primeIndices[i]!=0
+    while i<length(primeIndices) && primeIndices[i]!=0
         i+=1
     end
     if i==length(primeIndices)
-        return floor(l/product(primeIndices,primeList))^power
+        p=1
+        for e=1:length(primeIndices)-1
+            p*=primeList[primeIndices[e]]
+        end
+        return ifloor(l/p)^power
     end
     sum=0
     while true
@@ -61,7 +65,12 @@ function NtermRecursive(l,primeIndices,primeList,power)
             break
         elseif i>1 && primeIndices[i]>primeIndices[i-1]
             break
-        elseif product(primeIndices[1:i],primeList)>l
+        end
+        p=1
+        for j=1:i
+            p*=int(primeList[primeIndices[j]])
+        end
+        if p>l
             break
         end
         sum+=NtermRecursive(l,primeIndices,primeList,power)
