@@ -1,68 +1,76 @@
-import numpy as np 
-from mpmath import *
+#to use:
+#first, get a list of primes.
+#for example, primeList=p.primelist(1000000)
+#
+#second, call NPioverL on various large values of l
+#for example, NPioverL(100000,primeList,2)
+
+import csv
 import math
+from mpmath import *
+
+def primelist(max):
+    pl=[2]
+    i=3
+    while(i<max):
+        j=2
+        while(j<=math.sqrt(i)):
+            if (i%j==0):
+                break
+            j=j+1
+        if j>math.sqrt(i):
+            pl=pl+[i]
+        i=i+2
+    return pl
 
 def NPioverL(l,primeList,power,digits=100):
     mp.dps=digits
-    mp.prec+=203
-    return N(l,primeList,power)*(mp.pi**power)/l**power
+    return N(l,primeList,power)*(mp.pi**power)/(l**power)
 
 def N(l,primeList,power):
     term=1
     sign=-1
-    s=l**power
-    f=open(primeList,'r')
-    lines= f.readlines()
-    f.close()
-    for i in range(len(lines)):
-        try:
-            lines[i]=int(lines[i])
-        except ValueError:
-            lines.pop(i)
+    sum=l**power
     while True:
-        t=Nterm(l,lines,term,power)
+        t=Nterm(l,primeList,term,power)
         if t==0:
             break
-        s+=t*sign
-        sign*=(-1)
-        term+=1
-    return s
+        sum=sum+t*sign
+        sign=sign*(-1)
+        term=term+1
+    return sum
 
 def Nterm(l,primeList,term,power):
     primeIndices=[-1]*term
     return NtermRecursive(l,primeIndices,primeList,power)
 
-def NtermRecursive(l, primeIndices, primeList, power):
+def NtermRecursive(l,primeIndices,primeList,power):
     i=0
-    #print "len(primeIndices)",len(primeIndices)
-    #print "primeIndices[i]!=-1",primeIndices[i]!=-1
     while i<len(primeIndices) and primeIndices[i]!=-1:
-        i+=1
-    if i==len(primeIndices):
-        p=1
-        for e in primeIndices:
-            p*=primeList[e]
-        #print "p",p
-        return int(l/p)**power
+        i=i+1
 
-    sigma=0
+    if i==len(primeIndices):
+        return (math.floor(l/product(primeIndices,primeList)))**power
+
+    sum=0
     while True:
         primeIndices[i]=primeIndices[i]+1
-        #print "len(primeList)",len(primeList)
         if i==0 and primeIndices[i]==len(primeList):
             print "Need more primes"
             break
-        #print "primeIndices[i]>primeIndices[i-1]",primeIndices[i]>primeIndices[i-1]
-        if i>0 and primeIndices[i]>primeIndices[i-1]:
+        if i>0 and primeIndices[i]>=primeIndices[i-1]:
             break
-        p=1
-        for j in xrange(i+1):
-            p*=int(primeList[primeIndices[j]])
-        if p>l:
+        
+        if product(primeIndices[:i+1],primeList)>l:
             break
-        sigma+=NtermRecursive(l,copyList(primeIndices),primeList,power)
-        #print sigma
-    return sigma
+        sum=sum+NtermRecursive(l,copyList(primeIndices),primeList,power)
+    return sum
+
+def product(primeIndices,primeList):
+    p=1
+    for i in range(len(primeIndices)):
+        p=p*primeList[primeIndices[i]]
+    return p
 
 def copyList(oldlst):
     newlst=[]
@@ -70,19 +78,28 @@ def copyList(oldlst):
         newlst=newlst+[oldlst[i]]
     return newlst
 
-'''
-def Nterm(l,primeList,term,power):
-    primeIndices=range(term)
-    return (l/product(primeIndices,primeList))**power
+#this is just for verification
+def N2term2(l,pl):
+    i=0
+    sum=0
+    while True:
+        if i>=len(pl):
+            print "Need more primes"
+            break
+        if l<pl[i]:
+            break
+        sum=sum+math.floor(l/pl[i])**2
+        i=i+1
+    return sum
 
-def product(primeIndices,primeList):
-    p=1
-    for e in primeIndices:
-        p*=primeList[e]
-    return p
-'''
+results = []
+#filename='million_primes.txt'
+filename='../../Zeta Function/julia_billion_primes.txt'
+with open(filename) as inputfile:
+    for line in inputfile:
+        try:
+            results.append(int(line))
+        except ValueError:
+            pass
 
-print NPioverL(10**4,'../million_primes.txt',2)
-
-
-
+print NPioverL(10**4,results, 2)
