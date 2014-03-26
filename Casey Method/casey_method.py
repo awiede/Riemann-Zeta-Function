@@ -93,8 +93,8 @@ def N2term2(l,pl):
     return sum
 
 results = []
-#filename='million_primes.txt'
-filename='../../Zeta Function/julia_billion_primes.txt'
+filename='../million_primes.txt'
+
 with open(filename) as inputfile:
     for line in inputfile:
         try:
@@ -103,3 +103,9 @@ with open(filename) as inputfile:
             pass
 
 print NPioverL(10**4,results, 2)
+
+'''
+Computation with 1 billion primes, l=10**4
+6.000223133456999256406429341372316118630134313659210561498714093401657145976757325913407670276406751
+[Finished in 57.0s]
+'''
