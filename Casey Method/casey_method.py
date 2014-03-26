@@ -23,7 +23,7 @@ def primelist(max):
         i=i+2
     return pl
 
-def NPioverL(l,primeList,power,digits=100):
+def NPioverL(l,primeList,power,digits=1000):
     mp.dps=digits
     return N(l,primeList,power)*(mp.pi**power)/(l**power)
 
@@ -93,8 +93,8 @@ def N2term2(l,pl):
     return sum
 
 results = []
-filename='../million_primes.txt'
-
+#filename='../million_primes.txt'
+filename='../../Zeta Function/julia_10billion_primes.txt'
 with open(filename) as inputfile:
     for line in inputfile:
         try:
@@ -102,10 +102,22 @@ with open(filename) as inputfile:
         except ValueError:
             pass
 
-print NPioverL(10**4,results, 2)
+computation= NPioverL(10**6,results, 3)
+#computation= NPioverL(10**5,results, 3)
+print computation
+#writefile=open('testwritefile.txt','w')
+#writefile= open('../../Zeta Function/10billion_result.txt','w')
+
+writefile.write('NPioverL(l=10**6,10bil primes, 3)\n'+str(computation))
+writefile.close()
 
 '''
 Computation with 1 billion primes, l=10**4
 6.000223133456999256406429341372316118630134313659210561498714093401657145976757325913407670276406751
 [Finished in 57.0s]
+
+z(3)
+1b primes, l=10**4
+25.7946348142317005689130286067437538366171646585455991960556469767637520430255693554896049449805637
+[Finished in 57.7s]
 '''

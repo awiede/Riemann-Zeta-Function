@@ -21,7 +21,7 @@ end
 
 
 function writePrimes(n)
-    f=open("data.txt","w")
+    f=open("../Zeta Function/julia_10billion_primes.txt","w")
     tic()
     println(f,primes(n))
     toc()
