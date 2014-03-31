@@ -2,7 +2,7 @@ function euler(s,data="million_primes.txt")
     primes = readcsv(data)
     prod=1
     for p in primes
-        prod*=(1)/(1-(1/p^s))
+        prod*=(1)/(1-(1/BigFloat(p^s)))
     end
     return prod
 end

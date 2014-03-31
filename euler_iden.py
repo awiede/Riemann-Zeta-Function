@@ -1,17 +1,22 @@
 # \sum_{n=1}^{\infty} n^{-s} = \prod_p (1-p^{-s})^{-1}
-from decimal import *
+from mpmath import *
 
-def eu_iden(s, data='data.txt'):
-    primes =open(data,'r')
+def eu_iden(s, data,digits=100):
+    mp.dps=digits
+    primes = []
+    with open(data) as inputfile:
+        for line in inputfile:
+            try:
+                primes.append(int(line))
+            except ValueError:
+                pass
     prod=1
-    getcontext().prec=64
     for p in primes:
-        p=Decimal(p)
-        prod*=(Decimal(1)-(Decimal(1)/p**s))**(-1)
-    primes.close()
+        prod*=(1-(1/mpf(p**s)))**(-1)
+    inputfile.close()
     return prod
 
-print eu_iden(3,'julia_billion_primes.txtgi')
+print eu_iden(5,'million_primes.txt')
 
 #1 million primes
 '''

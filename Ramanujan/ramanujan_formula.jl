@@ -1,5 +1,5 @@
-function ramanugan(k)
-    sigma = zeros(BigFloat,k) #array of ints. need floats/decimals}
+function ramanujan(k)
+    sigma = zeros(BigFloat,k)
 
     for i=1:k #inclusive on both sides
         sigma[i]=BigFloat(((1/2)^i)*(1/i^3))
